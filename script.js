@@ -87,3 +87,46 @@ var finances = [
     ['Feb-2017', 671099],
   ];
   
+
+// * The total number of months included in the dataset.
+finances.length
+console.log("Total months included in the dataset: " + finances.length);
+
+// * The net total amount of Profit/Losses over the entire period.
+var sum = finances.reduce(function(sum, pair)  {
+  return sum + pair[1];
+}, 0);
+console.log("The net total amount of Profit/Losses over the entire period: " + "$" + sum);
+
+// * The average of the **changes** in Profit/Losses over the entire period.
+//   * You will need to track what the total change in Profit/Losses are from month to month and then find the average.
+//   * (`Total/(Number of months - 1)`)
+let result = finances.reduce((a, b, i) => {
+  let d = (i > 1) ? a : {average: a[1], sumChange: 0, lastMonth: a[1], increase: a, decrease: a},
+      change = b[1] - d.lastMonth
+  
+  d.sumChange += change
+  d.lastMonth = b[1]
+  d.average = d.sumChange / i
+  d.increase = (d.increase[1] > change) ? d.increase : [b[0], change]
+  d.decrease = (d.decrease[1] < change) ? d.decrease : [b[0], change]
+  return d
+
+})
+
+console.log("Average Change: " + "$" + result.average);
+
+
+//console.log(result) // Return the full object
+//console.log(result.total) // Only return one value, the total
+
+
+// * The greatest increase in Profit/Losses (date and difference in the amounts) over the entire period.
+console.log("Greatest Increase in Profits/Losses (in $): " + result.increase);
+
+
+// * The greatest decrease in Profit/Losses (date and difference in the amounts) over the entire period.
+console.log("Greatest Decrease in Profits/Losses (in $): " + result.decrease);
+
+
+// When you open your code in the browser your resulting analysis should look similar to the following:
