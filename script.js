@@ -101,6 +101,7 @@ console.log("The net total amount of Profit/Losses over the entire period: " + "
 // * The average of the **changes** in Profit/Losses over the entire period.
 //   * You will need to track what the total change in Profit/Losses are from month to month and then find the average.
 //   * (`Total/(Number of months - 1)`)
+
 let result = finances.reduce((a, b, i) => {
   let d = (i > 1) ? a : {average: a[1], sumChange: 0, lastMonth: a[1], increase: a, decrease: a},
       change = b[1] - d.lastMonth
